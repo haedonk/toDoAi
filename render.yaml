@@ -2,7 +2,7 @@ services:
   - type: web
     name: todo-ai-app
     env: java
-    plan: starter  # Can upgrade to standard/pro as needed
+    plan: starter
     buildCommand: ./gradlew build -x test --no-daemon
     startCommand: java -Dspring.profiles.active=production -jar build/libs/todo-ai-app-1.0.0.jar
     healthCheckPath: /actuator/health
@@ -11,18 +11,18 @@ services:
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: haekitchen_db  # Changed to match the actual database name
+          name: haekitchen-db
           property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS
       - key: OPENAI_API_KEY
-        sync: false  # You'll set this manually in Render dashboard
+        sync: false
       - key: JWT_EXPIRATION
         value: 86400000
 
 databases:
-  - name: haekitchen_db
-    databaseName: ai_todo_db
+  - name: haekitchen-db
+    databaseName: haekitchen_db
     user: app_user
-    plan: basic  # Changed from starter to basic
+    plan: basic
