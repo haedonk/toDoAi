@@ -1,25 +1,14 @@
-# Docker configuration for Render deployment
-FROM openjdk:17-jdk-slim
-
+# Stage 1: Builder
+FROM gradle:8.7-jdk17 AS builder
 WORKDIR /app
+COPY . .
+RUN gradle clean build -x test --no-daemon
 
-# Copy gradle wrapper and build files
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
+# Stage 2: Runtime
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/build/libs/todo-ai-app-*.jar app.jar
 
-# Copy source code
-COPY src src
-
-# Make gradlew executable
-RUN chmod +x ./gradlew
-
-# Build the application
-RUN ./gradlew build -x test
-
-# Expose port
+ENV SPRING_PROFILES_ACTIVE=production
 EXPOSE 8080
-
-# Run the application
-CMD ["java", "-jar", "build/libs/todo-ai-app-1.0.0.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
