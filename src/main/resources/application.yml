@@ -1,26 +1,23 @@
 spring:
   application:
     name: todo-ai-app
-
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/todoai}
     username: ${DATABASE_USERNAME:todoai}
     password: ${DATABASE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
-      ddl-auto: update  # Changed from create-drop for production
-    show-sql: false  # Disabled for production performance
+      ddl-auto: update
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: false  # Disabled for production
-
+        format_sql: false
   security:
     jwt:
-      secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970337336763979244226452948404D635166546A576E5A7234753778214125442A}
-      expiration: ${JWT_EXPIRATION:86400000} # 24 hours
+      secret: ${JWT_SECRET:defaultSecret}
+      expiration: ${JWT_EXPIRATION:86400000}
 
 openai:
   api:
@@ -31,8 +28,8 @@ server:
 
 logging:
   level:
-    com.todoai: INFO  # Changed from DEBUG for production
-    org.springframework.security: WARN  # Reduced logging for production
+    com.todoai: INFO
+    org.springframework.security: WARN
     org.springframework.web: WARN
     org.hibernate: WARN
   pattern:
