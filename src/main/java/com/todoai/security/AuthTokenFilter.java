@@ -31,11 +31,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         logger.debug("Processing request: {} {}", request.getMethod(), requestURI);
-
+        
         try {
             String jwt = parseJwt(request);
             logger.debug("Extracted JWT token: {}", jwt != null ? "Present" : "Not found");
-
+            
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 logger.debug("JWT token is valid");
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
@@ -43,7 +43,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 logger.debug("UserDetails loaded for: {}", username);
-
+                
                 UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

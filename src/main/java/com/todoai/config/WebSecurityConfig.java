@@ -88,7 +88,7 @@ public class WebSecurityConfig {
             // Default fallback for local development
             configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
         }
-
+        
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
