@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: development
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/todoai_dev}
+    username: ${DATABASE_USERNAME:dev_user}
+    password: ${DATABASE_PASSWORD:dev_password}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Safe for development
+    show-sql: true  # Helpful for development
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    com.todoai: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
